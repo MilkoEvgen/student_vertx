@@ -44,13 +44,13 @@ public class DepartmentController extends BasicController {
 
         departmentService.create(departmentDto)
                 .onSuccess(createdDepartment -> respondSuccess(context, 201, createdDepartment))
-                .onFailure(err -> respondError(context, 500, "Failed to create department: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void findAll(RoutingContext context) {
         departmentService.findAll()
                 .onSuccess(departments -> respondSuccess(context, 200, departments))
-                .onFailure(err -> respondError(context, 500, "Failed to retrieve departments: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void findById(RoutingContext context) {
@@ -63,7 +63,7 @@ public class DepartmentController extends BasicController {
                         respondError(context, 404, "Department not found");
                     }
                 })
-                .onFailure(err -> respondError(context, 500, "Failed to retrieve course: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void update(RoutingContext context) {
@@ -73,14 +73,14 @@ public class DepartmentController extends BasicController {
 
         departmentService.update(departmentDto)
                 .onSuccess(updatedDepartment -> respondSuccess(context, 200, updatedDepartment))
-                .onFailure(err -> respondError(context, 500, "Failed to update department: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void delete(RoutingContext context) {
         Long id = Long.valueOf(context.pathParam("id"));
         departmentService.deleteById(id)
                 .onSuccess(v -> context.response().setStatusCode(204).end())
-                .onFailure(err -> respondError(context, 500, "Failed to delete department: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void setTeacherToDepartment(RoutingContext context){
@@ -89,6 +89,6 @@ public class DepartmentController extends BasicController {
 
         departmentService.setTeacherToDepartment(departmentId, teacherId)
                 .onSuccess(updatedDepartment -> respondSuccess(context, 200, updatedDepartment))
-                .onFailure(err -> respondError(context, 500, "Failed to set teacher to department: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 }

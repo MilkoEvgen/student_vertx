@@ -8,7 +8,7 @@ import ru.milko.student_vertx.service.TeacherService;
 
 import static ru.milko.student_vertx.utils.PathUtils.TEACHERS_PATH;
 
-public class TeacherController extends BasicController{
+public class TeacherController extends BasicController {
     private final TeacherService teacherService;
 
     public TeacherController(TeacherService teacherService) {
@@ -39,13 +39,13 @@ public class TeacherController extends BasicController{
 
         teacherService.create(teacherDto)
                 .onSuccess(createdTeacher -> respondSuccess(context, 201, createdTeacher))
-                .onFailure(err -> respondError(context, 500, "Failed to create teacher: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void findAll(RoutingContext context) {
         teacherService.findAll()
                 .onSuccess(teachers -> respondSuccess(context, 200, teachers))
-                .onFailure(err -> respondError(context, 500, "Failed to retrieve teachers: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void findById(RoutingContext context) {
@@ -58,7 +58,7 @@ public class TeacherController extends BasicController{
                         respondError(context, 404, "Teacher not found");
                     }
                 })
-                .onFailure(err -> respondError(context, 500, "Failed to retrieve teacher: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void update(RoutingContext context) {
@@ -68,13 +68,13 @@ public class TeacherController extends BasicController{
 
         teacherService.update(teacherDto)
                 .onSuccess(updatedTeacher -> respondSuccess(context, 200, updatedTeacher))
-                .onFailure(err -> respondError(context, 500, "Failed to update teacher: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void delete(RoutingContext context) {
         Long id = Long.valueOf(context.pathParam("id"));
         teacherService.deleteById(id)
                 .onSuccess(v -> context.response().setStatusCode(204).end())
-                .onFailure(err -> respondError(context, 500, "Failed to delete teacher: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 }

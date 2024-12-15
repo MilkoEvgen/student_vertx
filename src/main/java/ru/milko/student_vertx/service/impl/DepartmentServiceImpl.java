@@ -130,7 +130,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Future<DepartmentDto> setTeacherToDepartment(Long departmentId, Long teacherId) {
         log.info("*** in setTeacherToDepartment, departmentId = {}, teacherId = {}", departmentId, teacherId);
         Future<Boolean> departmentExists = departmentRepository.existsById(departmentId);
-        Future<Boolean> teacherExists = teacherRepository.existsById(departmentId);
+        Future<Boolean> teacherExists = teacherRepository.existsById(teacherId);
 
         return Future.all(departmentExists, teacherExists)
                 .compose(ignored -> {

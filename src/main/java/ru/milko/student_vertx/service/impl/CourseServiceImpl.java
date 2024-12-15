@@ -160,7 +160,7 @@ public class CourseServiceImpl implements CourseService {
         log.info("*** in setTeacherToCourse, courseId = {}, teacherId = {}", courseId, teacherId);
 
         Future<Boolean> courseExists = courseRepository.existsById(courseId);
-        Future<Boolean> teacherExists = teacherRepository.existsById(courseId);
+        Future<Boolean> teacherExists = teacherRepository.existsById(teacherId);
 
         return Future.all(courseExists, teacherExists)
                 .compose(ignored -> {

@@ -1,10 +1,13 @@
 package ru.milko.student_vertx.repository.impl;
 
 import io.vertx.core.Future;
+import io.vertx.pgclient.PgException;
 import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.Tuple;
 import lombok.extern.slf4j.Slf4j;
+import ru.milko.student_vertx.exceptions.DuplicateFieldException;
+import ru.milko.student_vertx.exceptions.EntityNotFoundException;
 import ru.milko.student_vertx.model.Course;
 import ru.milko.student_vertx.repository.CourseRepository;
 
@@ -137,7 +140,7 @@ public class CourseRepositoryImpl implements CourseRepository {
                     if (result.rowCount() > 0) {
                         return Future.succeededFuture(course);
                     } else {
-                        return Future.failedFuture("No rows were updated");
+                        return Future.failedFuture(new EntityNotFoundException("Course with ID " + course.getId() + " not found"));
                     }
                 });
     }

@@ -5,6 +5,7 @@ import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.Tuple;
 import lombok.extern.slf4j.Slf4j;
+import ru.milko.student_vertx.exceptions.EntityNotFoundException;
 import ru.milko.student_vertx.model.Teacher;
 import ru.milko.student_vertx.repository.TeacherRepository;
 
@@ -95,7 +96,7 @@ public class TeacherRepositoryImpl implements TeacherRepository {
                     if (result.rowCount() > 0) {
                         return Future.succeededFuture(teacher);
                     } else {
-                        return Future.failedFuture("No rows were updated");
+                        return Future.failedFuture(new EntityNotFoundException("Teacher with ID " + teacher.getId() + " not found"));
                     }
                 });
     }

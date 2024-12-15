@@ -44,13 +44,13 @@ public class CourseController extends BasicController {
 
         courseService.create(courseDto)
                 .onSuccess(createdCourse -> respondSuccess(context, 201, createdCourse))
-                .onFailure(err -> respondError(context, 500, "Failed to create course: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void findAll(RoutingContext context) {
         courseService.findAll()
                 .onSuccess(courses -> respondSuccess(context, 200, courses))
-                .onFailure(err -> respondError(context, 500, "Failed to retrieve courses: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void findById(RoutingContext context) {
@@ -63,7 +63,7 @@ public class CourseController extends BasicController {
                         respondError(context, 404, "Course not found");
                     }
                 })
-                .onFailure(err -> respondError(context, 500, "Failed to retrieve course: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void update(RoutingContext context) {
@@ -73,14 +73,14 @@ public class CourseController extends BasicController {
 
         courseService.update(courseDto)
                 .onSuccess(updatedCourse -> respondSuccess(context, 200, updatedCourse))
-                .onFailure(err -> respondError(context, 500, "Failed to update course: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void delete(RoutingContext context) {
         Long id = Long.valueOf(context.pathParam("id"));
         courseService.deleteById(id)
                 .onSuccess(v -> context.response().setStatusCode(204).end())
-                .onFailure(err -> respondError(context, 500, "Failed to delete course: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void setTeacherToCourse(RoutingContext context) {
@@ -88,6 +88,6 @@ public class CourseController extends BasicController {
         Long teacherId = Long.valueOf(context.pathParam("teacher_id"));
         courseService.setTeacherToCourse(courseId, teacherId)
                 .onSuccess(updatedCourse -> respondSuccess(context, 200, updatedCourse))
-                .onFailure(err -> respondError(context, 500, "Failed to set teacher to course: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 }

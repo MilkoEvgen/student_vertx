@@ -11,7 +11,7 @@ import ru.milko.student_vertx.service.StudentService;
 import static ru.milko.student_vertx.utils.PathUtils.STUDENTS_PATH;
 
 @Slf4j
-public class StudentController extends BasicController{
+public class StudentController extends BasicController {
     private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
@@ -48,13 +48,13 @@ public class StudentController extends BasicController{
 
         studentService.create(studentDto)
                 .onSuccess(createdStudent -> respondSuccess(context, 201, createdStudent))
-                .onFailure(err -> respondError(context, 500, "Failed to create student: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void findAll(RoutingContext context) {
         studentService.findAll()
                 .onSuccess(students -> respondSuccess(context, 200, students))
-                .onFailure(err -> respondError(context, 500, "Failed to retrieve students: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void findById(RoutingContext context) {
@@ -67,14 +67,14 @@ public class StudentController extends BasicController{
                         respondError(context, 404, "Student not found");
                     }
                 })
-                .onFailure(err -> respondError(context, 500, "Failed to retrieve student: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void findAllCoursesByStudentId(RoutingContext context) {
         Long id = Long.valueOf(context.pathParam("id"));
         studentService.findAllCoursesByStudentId(id)
                 .onSuccess(courses -> respondSuccess(context, 200, courses))
-                .onFailure(err -> respondError(context, 500, "Failed to retrieve courses: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void update(RoutingContext context) {
@@ -84,14 +84,14 @@ public class StudentController extends BasicController{
 
         studentService.update(studentDto)
                 .onSuccess(updatedStudent -> respondSuccess(context, 200, updatedStudent))
-                .onFailure(err -> respondError(context, 500, "Failed to update student: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void delete(RoutingContext context) {
         Long id = Long.valueOf(context.pathParam("id"));
         studentService.deleteById(id)
                 .onSuccess(v -> context.response().setStatusCode(204).end())
-                .onFailure(err -> respondError(context, 500, "Failed to delete student: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
     private void addCourseToStudent(RoutingContext context) {
@@ -100,7 +100,7 @@ public class StudentController extends BasicController{
 
         studentService.addCourseToStudent(studentId, courseId)
                 .onSuccess(updatedStudent -> respondSuccess(context, 200, updatedStudent))
-                .onFailure(err -> respondError(context, 500, "Failed to add course to student: " + err.getMessage()));
+                .onFailure(context::fail);
     }
 
 }
