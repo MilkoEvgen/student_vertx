@@ -4,7 +4,6 @@ import io.vertx.core.Future;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.milko.student_vertx.dto.DepartmentDto;
-import ru.milko.student_vertx.dto.TeacherDto;
 import ru.milko.student_vertx.exceptions.EntityNotFoundException;
 import ru.milko.student_vertx.mapper.DepartmentMapper;
 import ru.milko.student_vertx.mapper.TeacherMapper;
