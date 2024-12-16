@@ -1,7 +1,6 @@
 package ru.milko.student_vertx.unit;
 
 import io.vertx.core.Future;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.milko.student_vertx.dto.CourseDto;
@@ -221,7 +220,7 @@ public class StudentServiceImplTest {
 
         assertTrue(result.succeeded());
         assertEquals(1, result.result().size());
-        assertEquals(courseDto, result.result().get(0));
+        assertEquals(courseDto, result.result().getFirst());
         verify(studentRepository).findAllCoursesByStudentId(eq(1L));
         verify(teacherRepository).findAllByIds(any());
         verify(courseMapper).toCourseDto(any());

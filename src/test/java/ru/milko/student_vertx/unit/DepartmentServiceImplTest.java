@@ -32,7 +32,6 @@ class DepartmentServiceImplTest {
     private Department department;
     private DepartmentDto departmentDto;
     private Teacher teacher;
-    private TeacherDto teacherDto;
 
     @BeforeEach
     void setUp() {
@@ -59,11 +58,6 @@ class DepartmentServiceImplTest {
                 .build();
 
         teacher = Teacher.builder()
-                .id(2L)
-                .name("Dr. Smith")
-                .build();
-
-        teacherDto = TeacherDto.builder()
                 .id(2L)
                 .name("Dr. Smith")
                 .build();
@@ -110,7 +104,7 @@ class DepartmentServiceImplTest {
 
         assertTrue(result.succeeded());
         assertEquals(1, result.result().size());
-        assertEquals(departmentDto, result.result().get(0));
+        assertEquals(departmentDto, result.result().getFirst());
 
         verify(departmentRepository).findAll();
         verify(teacherRepository).findAllByIds(any());

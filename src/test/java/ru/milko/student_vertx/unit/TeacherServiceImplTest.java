@@ -136,7 +136,7 @@ class TeacherServiceImplTest {
 
         assertTrue(result.succeeded());
         assertEquals(1, result.result().size());
-        assertEquals(teacherDto, result.result().get(0));
+        assertEquals(teacherDto, result.result().getFirst());
 
         verify(teacherRepository).findAll();
         verify(courseRepository).findAllByListOfTeacherIds(any());
