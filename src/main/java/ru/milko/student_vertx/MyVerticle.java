@@ -22,7 +22,8 @@ public class MyVerticle extends AbstractVerticle {
         context.initDependencies();
         context.registerRoutes(router);
 
-        int port = Integer.parseInt(System.getProperty("http.port", "0"));
+        int defaultPort = Integer.parseInt(config.get("http.port"));
+        int port = Integer.parseInt(System.getProperty("http.port", String.valueOf(defaultPort)));
 
         router.route().failureHandler(GlobalErrorHandler::handle);
 
@@ -40,4 +41,5 @@ public class MyVerticle extends AbstractVerticle {
                     }
                 });
     }
+
 }
